@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "day": "06/01/2020",
+    "checked": true,
+    "description": "Drink watter"
+  },
+  {
+    "id": 2,
+    "day": "06/01/2020",
+    "checked": false,
+    "description": "Programing"
+  },
+  {
+    "id": 3,
+    "day": "06/01/2020",
+    "checked": false,
+    "description": "Study react native"
+  },
+  {
+    "id": 4,
+    "day": "06/01/2020",
+    "checked": false,
+    "description": "Study VueJS"
+  },
+  {
+    "id": 5,
+    "day": "06/01/2020",
+    "checked": true,
+    "description": "Create a todo app"
+  }
+]
