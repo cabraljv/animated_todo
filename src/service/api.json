@@ -1,10 +1,5 @@
 [
-  {
-    "id": 1,
-    "day": "06/01/2020",
-    "checked": true,
-    "description": "Drink watter"
-  },
+  
   {
     "id": 2,
     "day": "06/01/2020",
@@ -28,5 +23,11 @@
     "day": "06/01/2020",
     "checked": true,
     "description": "Create a todo app"
+  },
+  {
+    "id": 1,
+    "day": "06/01/2020",
+    "checked": true,
+    "description": "Drink watter"
   }
 ]

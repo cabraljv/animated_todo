@@ -39,5 +39,4 @@ export const Item = styled.View`
 export const ItemDesc = styled.Text`
   font-size: 18px;
   color: #777;
-  margin-left: 15px;
 `;

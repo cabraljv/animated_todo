@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import { CheckBox } from 'react-native-elements';
 import {
   Container,
   Content,
@@ -12,14 +12,16 @@ import {
 import api from './service/api.json';
 
 const App = () => {
-  const [todo, setTodo] = useState(api);
-  function handleChanged(item) {
-    const newTodo = todo;
-    console.log('clicou');
-    newTodo.forEach(element => {
-      if (element === item) element.checked = true;
-    });
-    console.log(newTodo[1]);
+  const [todo, setTodo] = useState([]);
+  useEffect(() => {
+    setTodo(api);
+  }, []);
+  function handleChanged(index) {
+    const newTodo = [...todo];
+    newTodo[index].checked = true;
+    const todown = newTodo[index];
+    newTodo.splice(index, 1);
+    newTodo.push(todown);
     setTodo(newTodo);
   }
   return (
@@ -32,14 +34,15 @@ const App = () => {
       <DayText>Day 06/01/2020</DayText>
       <Content>
         <DayContent>
-          {todo.map(item => (
+          {todo.map((item, index) => (
             <Item key={item.id}>
               <CheckBox
-                boxType="circle"
-                onCheckColor="#0AB5E5"
-                value={item.checked}
-                onValueChange={() => handleChanged(item)}
-                tintColors={{ true: '#0AB5E5', false: '#777' }}
+                iconType="antdesign"
+                checkedIcon="checkcircle"
+                uncheckedIcon="checkcircleo"
+                checkedColor="#0AB5E5"
+                checked={item.checked}
+                onPress={() => handleChanged(index)}
               />
               <ItemDesc>{item.description}</ItemDesc>
             </Item>
