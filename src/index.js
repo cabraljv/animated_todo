@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StatusBar, Animated } from 'react-native';
+import { StatusBar, Animated, Keyboard } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
@@ -27,6 +27,7 @@ const App = () => {
   const leftPosition = useRef(new Animated.Value(0)).current;
   const heightInput = useRef(new Animated.Value(80)).current;
   const widthInput = useRef(new Animated.Value(350)).current;
+  const topListPosition = useRef(new Animated.Value(80)).current;
 
   useEffect(() => {
     setTodo(api);
@@ -39,7 +40,7 @@ const App = () => {
     newTodo.push(todown);
     setTodo(newTodo);
   }
-  const moveTop = () => {
+  const animateFocus = () => {
     Animated.parallel([
       Animated.timing(topPosition, {
         toValue: 10,
@@ -58,6 +59,30 @@ const App = () => {
       }),
       Animated.timing(heightInput, {
         toValue: 60,
+        duration: 500,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+  const backNormal = () => {
+    Animated.parallel([
+      Animated.timing(topPosition, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: false,
+      }),
+      Animated.timing(leftPosition, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: false,
+      }),
+      Animated.timing(widthInput, {
+        toValue: 350,
+        duration: 500,
+        useNativeDriver: false,
+      }),
+      Animated.timing(heightInput, {
+        toValue: 80,
         duration: 500,
         useNativeDriver: false,
       }),
@@ -92,7 +117,7 @@ const App = () => {
                 selectionColor="rgba(0,0,0,.1)"
                 onFocus={() => {
                   setInputInFocus(!inputInFocus);
-                  moveTop();
+                  animateFocus();
                 }}
                 value={text}
                 onChangeText={textInp => setText(textInp.trim())}
@@ -102,6 +127,10 @@ const App = () => {
                   <AddButtonText
                     onPress={() => {
                       setTodo([{ description: text, checked: false }, ...todo]);
+                      setText('');
+                      Keyboard.dismiss();
+                      setInputInFocus(false);
+                      backNormal();
                     }}
                   >
                     Add
@@ -110,9 +139,15 @@ const App = () => {
               )}
             </AnimatedInput>
           </DayHeader>
-          <DayItems>
+          <DayItems
+            as={Animated.View}
+            style={{
+              top: topListPosition,
+            }}
+          >
             {todo.map((item, index) => (
-              <Item key={item.description}>
+              // eslint-disable-next-line react/no-array-index-key
+              <Item key={index}>
                 <CheckBox
                   iconType="antdesign"
                   checkedIcon="checkcircle"
